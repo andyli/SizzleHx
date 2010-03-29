@@ -1,0 +1,3 @@
+-main sizzle.Sizzle
+-js /Library/WebServer/Documents/jeresig-sizzle-852d3d0/sizzle.js
+-lib domready
