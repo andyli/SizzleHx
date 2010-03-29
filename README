@@ -1,0 +1,3 @@
+Haxe port of Sizzle http://sizzlejs.com/
+
+Currently passed all the testes in all latest browsers except IE...
