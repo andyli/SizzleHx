@@ -45,8 +45,8 @@ class Sizzle {
 		// Provide a fallback method if it does not work
 		} catch(e:Dynamic){}
 		
-		Expr = {
-			order: [ "ID", "NAME", "TAG" ],
+		/*Expr = {
+			order:,
 			match: new Hash<EReg>(),
 			leftMatch: new Hash<EReg>(),
 			attrMap: new Hash<String>(),
@@ -57,35 +57,35 @@ class Sizzle {
 			filters: new Hash<HtmlDom->Int->Dynamic->Bool>(),
 			setFilters: new Hash<HtmlDom->Int->Dynamic->Array<HtmlDom>->Bool>(),
 			filter: new Hash<HtmlDom->Dynamic->Int->Dynamic->Bool>()
-		};
+		};*/
 		
-		Expr.match.set("ID",~/#((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
-		Expr.match.set("CLASS",~/\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
-		Expr.match.set("NAME",~/\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\](?![^\[]*\])(?![^\(]*\))/);
-		Expr.match.set("ATTR",~/\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\](?![^\[]*\])(?![^\(]*\))/);
-		Expr.match.set("TAG",~/^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
-		Expr.match.set("CHILD",~/:(only|nth|last|first)-child(?:\((even|odd|[\dn+\-]*)\))?(?![^\[]*\])(?![^\(]*\))/);
-		Expr.match.set("POS",~/:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)(?![^\[]*\])(?![^\(]*\))/);
-		Expr.match.set("PSEUDO",~/:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?(?![^\[]*\])(?![^\(]*\))/);
+		_match.set("ID",~/#((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
+		_match.set("CLASS",~/\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
+		_match.set("NAME",~/\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\](?![^\[]*\])(?![^\(]*\))/);
+		_match.set("ATTR",~/\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\](?![^\[]*\])(?![^\(]*\))/);
+		_match.set("TAG",~/^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
+		_match.set("CHILD",~/:(only|nth|last|first)-child(?:\((even|odd|[\dn+\-]*)\))?(?![^\[]*\])(?![^\(]*\))/);
+		_match.set("POS",~/:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)(?![^\[]*\])(?![^\(]*\))/);
+		_match.set("PSEUDO",~/:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?(?![^\[]*\])(?![^\(]*\))/);
 		
-		Expr.leftMatch.set("ID",~/(^(?:.|\r|\n)*?)#((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
-		Expr.leftMatch.set("CLASS",~/(^(?:.|\r|\n)*?)\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
-		Expr.leftMatch.set("NAME",~/(^(?:.|\r|\n)*?)\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\](?![^\[]*\])(?![^\(]*\))/);
-		Expr.leftMatch.set("ATTR",~/(^(?:.|\r|\n)*?)\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\4|)\s*\](?![^\[]*\])(?![^\(]*\))/);
-		Expr.leftMatch.set("TAG",~/(^(?:.|\r|\n)*?)^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
-		Expr.leftMatch.set("CHILD",~/(^(?:.|\r|\n)*?):(only|nth|last|first)-child(?:\((even|odd|[\dn+\-]*)\))?(?![^\[]*\])(?![^\(]*\))/);
-		Expr.leftMatch.set("POS",~/(^(?:.|\r|\n)*?):(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)(?![^\[]*\])(?![^\(]*\))/);
-		Expr.leftMatch.set("PSEUDO",~/(^(?:.|\r|\n)*?):((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\3\))?(?![^\[]*\])(?![^\(]*\))/);
+		_leftMatch.set("ID",~/(^(?:.|\r|\n)*?)#((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
+		_leftMatch.set("CLASS",~/(^(?:.|\r|\n)*?)\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
+		_leftMatch.set("NAME",~/(^(?:.|\r|\n)*?)\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\](?![^\[]*\])(?![^\(]*\))/);
+		_leftMatch.set("ATTR",~/(^(?:.|\r|\n)*?)\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\4|)\s*\](?![^\[]*\])(?![^\(]*\))/);
+		_leftMatch.set("TAG",~/(^(?:.|\r|\n)*?)^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)(?![^\[]*\])(?![^\(]*\))/);
+		_leftMatch.set("CHILD",~/(^(?:.|\r|\n)*?):(only|nth|last|first)-child(?:\((even|odd|[\dn+\-]*)\))?(?![^\[]*\])(?![^\(]*\))/);
+		_leftMatch.set("POS",~/(^(?:.|\r|\n)*?):(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)(?![^\[]*\])(?![^\(]*\))/);
+		_leftMatch.set("PSEUDO",~/(^(?:.|\r|\n)*?):((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\3\))?(?![^\[]*\])(?![^\(]*\))/);
 		
-		Expr.attrMap.set("class","className");
-		Expr.attrMap.set("for","htmlFor");
+		_attrMap.set("class","className");
+		_attrMap.set("for","htmlFor");
 		
-		Expr.attrHandle.set("href", function(elem:HtmlDom):String{
+		_attrHandle.set("href", function(elem:HtmlDom):String{
 			return elem.getAttribute("href");
 		});
 		
 		
-		Expr.relative.set("+", function(checkSet:Array<Dynamic>, part:String, isXML:Bool):Void{
+		_relative.set("+", function(checkSet:Array<Dynamic>, part:String, isXML:Bool):Void{
 			var isPartStr = Std.is(part,String),
 				isTag = isPartStr && !~/\W/.match(part),
 				isPartStrNotTag = isPartStr && !isTag;
@@ -112,7 +112,7 @@ class Sizzle {
 			}
 		});
 		
-		Expr.relative.set(">", function(checkSet:Array<Dynamic>, part:Dynamic, isXML:Bool):Void{
+		_relative.set(">", function(checkSet:Array<Dynamic>, part:Dynamic, isXML:Bool):Void{
 			var isPartStr = Std.is(part,String),
 				elem:Dynamic,
 				i = 0,
@@ -150,7 +150,7 @@ class Sizzle {
 			}
 		});
 		
-		Expr.relative.set("", function(checkSet:Array<Dynamic>, part:String, isXML:Bool):Void{
+		_relative.set("", function(checkSet:Array<Dynamic>, part:String, isXML:Bool):Void{
 			var doneName = done++, 
 				checkFn = dirCheck, 
 				nodeCheck = null;
@@ -164,7 +164,7 @@ class Sizzle {
 			checkFn("parentNode", part, Std.string(doneName), checkSet, nodeCheck, isXML);
 		});
 		
-		Expr.relative.set("~", function(checkSet:Array<Dynamic>, part:String, isXML:Bool):Void{
+		_relative.set("~", function(checkSet:Array<Dynamic>, part:String, isXML:Bool):Void{
 			var doneName = done++,
 				checkFn = dirCheck,
 				nodeCheck = null;
@@ -179,7 +179,7 @@ class Sizzle {
 		});
 		
 		
-		Expr.find.set("ID", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
+		_find.set("ID", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
 			if ( context.getElementById != null && !isXML ) {
 				var m = context.getElementById(match[1]);
 				return m != null ? [m] : [];
@@ -187,7 +187,7 @@ class Sizzle {
 			return null;
 		});
 		
-		Expr.find.set("NAME", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
+		_find.set("NAME", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
 			if ( context.getElementsByName != null ) {
 				var ret = [], results = context.getElementsByName(match[1]);
 
@@ -202,12 +202,12 @@ class Sizzle {
 			return null;
 		});
 		
-		Expr.find.set("TAG", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
+		_find.set("TAG", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
 			return cast makeArray(context.getElementsByTagName(match[1]));
 		});
 		
 		
-		Expr.preFilter.set("CLASS", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
+		_preFilter.set("CLASS", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
 			var _match = " " + ~/\\/g.replace(match[1],"") + " ";
 
 			if ( isXML ) {
@@ -233,15 +233,15 @@ class Sizzle {
 			return false;
 		});
 		
-		Expr.preFilter.set("ID", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
+		_preFilter.set("ID", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
 			return ~/\\/g.replace(match[1], "");
 		});
 		
-		Expr.preFilter.set("TAG", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
+		_preFilter.set("TAG", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
 			return match[1].toLowerCase();
 		});
 	
-		Expr.preFilter.set("CHILD", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{//if (match[0]==":nth-child(3)")js.Lib.alert(match);
+		_preFilter.set("CHILD", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{//if (match[0]==":nth-child(3)")js.Lib.alert(match);
 			if ( match[1] == "nth" ) {
 				// parse equations like 'even', 'odd', '5', '2n', '3n+2', '4n-1', '-n+6'
 				var test = regexpAllMatched(~/(-?)(\d*)n((?:\+|-)?\d*)/,
@@ -263,11 +263,11 @@ class Sizzle {
 			return match;
 		});
 		
-		Expr.preFilter.set("ATTR", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
+		_preFilter.set("ATTR", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
 			var name = ~/\\/g.replace(match[1], "");
 			
-			if ( !isXML && Expr.attrMap.exists(name) ) {
-				match[1] = Expr.attrMap.get(name);
+			if ( !isXML && _attrMap.exists(name) ) {
+				match[1] = _attrMap.get(name);
 			}
 
 			if ( match[2] == "~=" ) {
@@ -277,7 +277,7 @@ class Sizzle {
 			return match;
 		});
 		
-		Expr.preFilter.set("PSEUDO", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
+		_preFilter.set("PSEUDO", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
 			if ( match[1] == "not" ) {
 				// If we're dealing with a complex expression, or a simple one
 				if ( ( chunker.match(match[3]) ? chunker.matched(0) : "" ).length > 1 || ~/^\w/.match(match[3]) ) {
@@ -289,35 +289,35 @@ class Sizzle {
 					}
 					return false;
 				}
-			} else if ( Expr.match.get("POS").match( match[0] ) || Expr.match.get("CHILD").match( match[0] ) ) {
+			} else if ( _match.get("POS").match( match[0] ) || _match.get("CHILD").match( match[0] ) ) {
 				return true;
 			}
 			
 			return match;
 		});
 		
-		Expr.preFilter.set("POS", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
+		_preFilter.set("POS", function(match:Array<String>, curLoop:Array<Dynamic>, inplace:Bool, result:Array<Dynamic>, not:Bool, isXML:Bool):Dynamic{
 			match.unshift( "true" );
 			return match;
 		});
 		
 		
-		Expr.filters.set("enabled", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("enabled", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return input.disabled == false && input.type != "hidden";
 		});
 		
-		Expr.filters.set("disabled", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("disabled", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return input.disabled == true;
 		});
 		
-		Expr.filters.set("checked", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("checked", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return input.checked == true;
 		});
 		
-		Expr.filters.set("selected", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("selected", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			// Accessing this property makes selected-by-default
 			// options in Safari work properly
@@ -325,108 +325,108 @@ class Sizzle {
 			return input.selected == true;
 		});
 		
-		Expr.filters.set("parent", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("parent", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			return elem.firstChild != null;
 		});
 		
-		Expr.filters.set("empty", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("empty", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			return elem.firstChild == null;
 		});
 		
-		Expr.filters.set("has", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("has", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			return Sizzle.select( match[3], elem ).length > 0;
 		});
 		
-		Expr.filters.set("header", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("header", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			return (~/h\d/i).match( elem.nodeName );
 		});
 		
-		Expr.filters.set("text", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("text", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "text" == input.type;
 		});
 		
-		Expr.filters.set("radio", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("radio", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "radio" == input.type;
 		});
 		
-		Expr.filters.set("checkbox", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("checkbox", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "checkbox" == input.type;
 		});
 		
-		Expr.filters.set("file", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("file", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "file" == input.type;
 		});
 		
-		Expr.filters.set("password", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("password", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "password" == input.type;
 		});
 		
-		Expr.filters.set("submit", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("submit", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "submit" == input.type;
 		});
 		
-		Expr.filters.set("image", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("image", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "image" == input.type;
 		});
 		
-		Expr.filters.set("reset", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("reset", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "reset" == input.type;
 		});
 		
-		Expr.filters.set("button", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("button", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			var input:Dynamic = elem;
 			return "button" == input.type || elem.nodeName.toLowerCase() == "button";
 		});
 		
-		Expr.filters.set("input", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
+		_filters.set("input", function(elem:HtmlDom, i:Int, match:Dynamic):Bool{
 			return (~/input|select|textarea|button/i).match(elem.nodeName);
 		});
 		
 		
-		Expr.setFilters.set("first", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
+		_setFilters.set("first", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
 			return i == 0;
 		});
 		
-		Expr.setFilters.set("last", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
+		_setFilters.set("last", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
 			return i == array.length - 1;
 		});
 		
-		Expr.setFilters.set("even", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
+		_setFilters.set("even", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
 			return i % 2 == 0;
 		});
 		
-		Expr.setFilters.set("odd", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
+		_setFilters.set("odd", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
 			return i % 2 == 1;
 		});
 		
-		Expr.setFilters.set("lt", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
+		_setFilters.set("lt", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
 			return i < Std.int(match[3]);
 		});
 		
-		Expr.setFilters.set("gt", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
+		_setFilters.set("gt", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
 			return i > Std.int(match[3]);
 		});
 		
-		Expr.setFilters.set("nth", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
+		_setFilters.set("nth", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
 			return Std.int(match[3]) == i;
 		});
 		
-		Expr.setFilters.set("eq", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
+		_setFilters.set("eq", function(elem:HtmlDom, i:Int, match:Dynamic, array:Array<HtmlDom>):Bool{
 			return Std.int(match[3]) == i;
 		});
 		
-		Expr.filter.set("PSEUDO", function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
+		_filter.set("PSEUDO", function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
 			//if (match[0] == ":header")js.Lib.alert(match);
 			var name:String = match[1],
-				filter = Expr.filters.get(name),
+				filter = _filters.get(name),
 				d:Dynamic = elem;
 
 			if ( filter != null ) {
@@ -458,7 +458,7 @@ class Sizzle {
 			return false;
 		});
 		
-		Expr.filter.set("CHILD",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
+		_filter.set("CHILD",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
 			var type = match[1], node = elem;
 			switch (type) {
 				case 'only','first':
@@ -517,23 +517,23 @@ class Sizzle {
 			return false;
 		});
 		
-		Expr.filter.set("ID",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
+		_filter.set("ID",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
 			return elem.nodeType == 1 && elem.getAttribute("id") == match;
 		});
 		
-		Expr.filter.set("TAG",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
+		_filter.set("TAG",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
 			return (match == "*" && elem.nodeType == 1) || elem.nodeName.toLowerCase() == match;
 		});
 		
-		Expr.filter.set("CLASS",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
+		_filter.set("CLASS",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
 			return (" " + (elem.className != null ? elem.className : elem.getAttribute("class")) + " ")
 				.indexOf( match ) > -1;
 		});
 		
-		Expr.filter.set("ATTR",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
+		_filter.set("ATTR",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
 			var name = match[1],
-				result = Expr.attrHandle.exists(name) ?
-					Expr.attrHandle.get(name)( elem ) :
+				result = _attrHandle.exists(name) ?
+					_attrHandle.get(name)( elem ) :
 					untyped elem[name] ?
 						untyped elem[name] :
 						elem.getAttribute( name ),
@@ -562,8 +562,8 @@ class Sizzle {
 				false;
 		});
 		
-		Expr.filter.set("POS",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
-			var name = match[2], filter = Expr.setFilters.get(name);
+		_filter.set("POS",function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
+			var name = match[2], filter = _setFilters.get(name);
 
 			if ( filter != null ) {
 				return filter( elem, i, match, array );
@@ -571,7 +571,7 @@ class Sizzle {
 			return false;
 		});
 		
-		selectors = Expr;
+		//selectors = Expr;
 		
 		
 		if ( untyped document.documentElement.compareDocumentPosition ) {
@@ -641,7 +641,7 @@ class Sizzle {
 			// The workaround has to do additional checks after a getElementById
 			// Which slows things down for other browsers (hence the branching)
 			if ( document.getElementById( id ) != null ) {
-				Expr.find.set("ID", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
+				_find.set("ID", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
 					if ( context.getElementById != null && !isXML ) {
 						var m = context.getElementById(match[1]);
 						return m != null ? m.id == match[1] || (untyped m.getAttributeNode != null) && (untyped m.getAttributeNode("id").nodeValue == match[1]) ? [m] : null : [];
@@ -649,7 +649,7 @@ class Sizzle {
 					return [];
 				});
 
-				Expr.filter.set("ID", function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
+				_filter.set("ID", function(elem:HtmlDom, match:Dynamic, i:Int, array:Dynamic):Bool{
 					var node:HtmlDom = untyped elem.getAttributeNode != null ? untyped elem.getAttributeNode("id") : null;
 					return node != null && elem.nodeType == 1 && node.nodeValue == match;
 				});
@@ -669,7 +669,7 @@ class Sizzle {
 
 			// Make sure no comments are found
 			if ( div.getElementsByTagName("*").length > 0 ) {
-				Expr.find.set("TAG", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
+				_find.set("TAG", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
 					var results:Array<HtmlDom> = cast makeArray(context.getElementsByTagName(match[1]));
 
 					// Filter out possible comments
@@ -696,7 +696,7 @@ class Sizzle {
 			div.innerHTML = "<a href='#'></a>";
 			if ( div.firstChild != null && div.firstChild.getAttribute != null &&
 					div.firstChild.getAttribute("href") != "#" ) {
-				Expr.attrHandle.set("href", function(elem:HtmlDom):String{
+				_attrHandle.set("href", function(elem:HtmlDom):String{
 					return untyped __js__('elem.getAttribute("href", 2)');
 				});
 			}
@@ -755,8 +755,8 @@ class Sizzle {
 					return;
 				}
 	
-				Expr.order.insert(1, "CLASS");
-				Expr.find.set("CLASS", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
+				_order.insert(1, "CLASS");
+				_find.set("CLASS", function(match:Array<String>, context:Document, isXML:Bool):Array<HtmlDom>{
 					if ( untyped context.getElementsByClassName != null && !isXML ) {
 						return untyped context.getElementsByClassName(match[1]);
 					}
@@ -822,17 +822,17 @@ class Sizzle {
 		}
 
 		if ( parts.length > 1 && origPOS.match( selector ) ) {
-			if ( parts.length == 2 && Expr.relative.exists(parts[0]) ) { 
+			if ( parts.length == 2 && _relative.exists(parts[0]) ) { 
 				set = posProcess( parts[0] + parts[1], context );
 			} else {
-				set = Expr.relative.exists(parts[0]) ?
+				set = _relative.exists(parts[0]) ?
 					[ context ] :
 					Sizzle.select( parts.shift(), context );
 
 				while ( parts.length > 0 ) {
 					selector = parts.shift();
 
-					if ( Expr.relative.exists(selector) ) {
+					if ( _relative.exists(selector) ) {
 						selector += parts.shift();
 					}
 				
@@ -843,7 +843,7 @@ class Sizzle {
 			// Take a shortcut and set the context if the root selector is an ID
 			// (but not if it'll be faster if the inner selector is an ID)
 			if ( !seed && parts.length > 1 && context.nodeType == 9 && !contextXML &&
-					Expr.match.get("ID").match(parts[0]) && !Expr.match.get("ID").match(parts[parts.length - 1]) ) {
+					_match.get("ID").match(parts[0]) && !_match.get("ID").match(parts[parts.length - 1]) ) {
 				ret = Sizzle.find( parts.shift(), context, contextXML );
 				context = ret.expr.length > 0 ? Sizzle.filter( ret.expr, ret.set )[0] : ret.set[0];
 			}
@@ -864,7 +864,7 @@ class Sizzle {
 					cur = parts.pop();
 					pop = cur;
 
-					if ( !Expr.relative.exists(cur) ) {
+					if ( !_relative.exists(cur) ) {
 						cur = "";
 					} else {
 						pop = parts.pop();
@@ -874,7 +874,7 @@ class Sizzle {
 						pop = context;
 					}
 
-					Expr.relative.get(cur)( checkSet, pop, contextXML );
+					_relative.get(cur)( checkSet, pop, contextXML );
 				}
 			} else {
 				checkSet = parts = [];
@@ -953,18 +953,18 @@ class Sizzle {
 			return {set:null, expr:""};
 		}
 
-		for ( i in 0...Expr.order.length ) {
-			var type = Expr.order[i], match;
+		for ( i in 0..._order.length ) {
+			var type = _order[i], match;
 		
-			if ( (match = Sizzle.regexpAllMatched(Expr.leftMatch.get(type),expr)).length > 0 ) {
+			if ( (match = Sizzle.regexpAllMatched(_leftMatch.get(type),expr)).length > 0 ) {
 				var left = match[1];
 				match.splice(1,1);
 
 				if ( left.substr( left.length - 1 ) != "\\" ) {
 					match[1] = ~/\\/g.replace(match[1].length > 0 ? match[1] : "", "");
-					set = Expr.find.get(type)( match, cast context, isXML );
+					set = _find.get(type)( match, cast context, isXML );
 					if ( set != null ) {
-						expr = Expr.match.get(type).replace( expr, "" );
+						expr = _match.get(type).replace( expr, "" );
 						break;
 					}
 				}
@@ -984,11 +984,11 @@ class Sizzle {
 			isXMLFilter:Bool = set != null && set.length > 0 && Sizzle.isXML(set[0]);
 //if (expr==":nth-child(3)")js.Lib.alert("here");
 		while ( expr.length > 0 && set.length > 0 ) {
-			var keyIter = Expr.filter.keys();
+			var keyIter = _filter.keys();
 			while ( keyIter.hasNext() ) {
 				var type = keyIter.next();
-				if ( (match = regexpAllMatched(Expr.leftMatch.get(type),expr)).length > 2 ) {
-					var filter = Expr.filter.get(type), found = null, item:Dynamic, left = match[1];
+				if ( (match = regexpAllMatched(_leftMatch.get(type),expr)).length > 2 ) {
+					var filter = _filter.get(type), found = null, item:Dynamic, left = match[1];
 					anyFound = false;
 
 					match.splice(1,1);
@@ -1001,8 +1001,8 @@ class Sizzle {
 						result = [];
 					}
 
-					if ( Expr.preFilter.exists(type) ) {
-						match = Expr.preFilter.get(type)( match, curLoop, inplace, result, not, isXMLFilter );
+					if ( _preFilter.exists(type) ) {
+						match = _preFilter.get(type)( match, curLoop, inplace, result, not, isXMLFilter );
 
 						if ( match == null || match == false || (match.length != null && match.length == 0) ) {
 							anyFound = found = true;
@@ -1038,7 +1038,7 @@ class Sizzle {
 							curLoop = result;
 						}
 
-						expr = Expr.match.get(type).replace( expr, "" );
+						expr = _match.get(type).replace( expr, "" );
 
 						if ( anyFound == null || !anyFound ) {
 							return [];
@@ -1068,11 +1068,33 @@ class Sizzle {
 		throw "Syntax error, unrecognized expression: " + msg;
 	}
 	
-	static private var Expr:ExprType;
+	static private var _order:Array<String> = [ "ID", "NAME", "TAG" ];
+	static private var _match = new Hash<EReg>();
+	static private var _leftMatch = new Hash<EReg>();
+	static private var _attrMap = new Hash<String>();
+	static private var _attrHandle = new Hash<HtmlDom->String>();
+	static private var _relative = new Hash<Array<Dynamic>->String->Bool->Void>();
+	static private var _find = new Hash<Array<String>->Document->Bool->Array<HtmlDom>>();
+	static private var _preFilter = new Hash<Array<String>->Array<Dynamic>->Bool->Array<HtmlDom>->Bool->Bool->Dynamic>();
+	static private var _filters = new Hash<HtmlDom->Int->Dynamic->Bool>();
+	static private var _setFilters = new Hash<HtmlDom->Int->Dynamic->Array<HtmlDom>->Bool>();
+	static private var _filter = new Hash<HtmlDom->Dynamic->Int->Dynamic->Bool>();
 
-	static public var selectors:ExprType;
+	static public var selectors = {
+		order: _order,
+		match: _match,
+		leftMatch: _leftMatch,
+		attrMap: _attrMap,
+		attrHandle: _attrHandle,
+		relative: _relative,
+		find: _find,
+		preFilter: _preFilter,
+		filters: _filters,
+		setFilters: _setFilters,
+		filter: _filter
+	};
 	
-	static private var origPOS:EReg = ~/:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/;
+	inline static private var origPOS:EReg = ~/:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/;
 	
 	static private function regexpAllMatched(regexp:EReg, str:String):Array<String> {
 		var match = new Array<String>();
@@ -1217,13 +1239,13 @@ class Sizzle {
 
 		// Position selectors must be done after the filter
 		// And so must :not(positional) so we move all PSEUDOs to the end
-		var reg = Expr.match.get("PSEUDO");
+		var reg = _match.get("PSEUDO");
 		while (reg.match(selector)) {
 			later += reg.matched(0);
 			selector = reg.replace( selector, "" );
 		}
 
-		selector = Expr.relative.exists(selector) ? selector + "*" : selector;
+		selector = _relative.exists(selector) ? selector + "*" : selector;
 
 		for ( i in 0...root.length ) {
 			Sizzle.select( selector, root[i], tmpSet );
@@ -1236,17 +1258,3 @@ class Sizzle {
 		init();
 	}
 }
-
-typedef ExprType = {
-		order: Array<String>,
-		match: Hash<EReg>,
-		leftMatch: Hash<EReg>,
-		attrMap: Hash<String>,
-		attrHandle: Hash<HtmlDom->String>,
-		relative: Hash<Array<Dynamic>->String->Bool->Void>,
-		find: Hash<Array<String>->Document->Bool->Array<HtmlDom>>,
-		preFilter: Hash<Array<String>->Array<Dynamic>->Bool->Array<HtmlDom>->Bool->Bool->Dynamic>,
-		filters: Hash<HtmlDom->Int->Dynamic->Bool>,
-		setFilters: Hash<HtmlDom->Int->Dynamic->Array<HtmlDom>->Bool>,
-		filter: Hash<HtmlDom->Dynamic->Int->Dynamic->Bool>
-	};
